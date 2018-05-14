@@ -15,7 +15,7 @@ public class MockConfig {
     return new WeatherService() {
       @Override
       public String getWeather() {
-        return "Clear blue sky";
+        return "Clear blue sky today";
       }
     };
   }
