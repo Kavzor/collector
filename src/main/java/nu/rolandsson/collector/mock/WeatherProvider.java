@@ -5,6 +5,8 @@ import nu.rolandsson.collector.model.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class WeatherProvider {
   
@@ -18,5 +20,9 @@ public class WeatherProvider {
   
   public Weather getWeather() {
     return mWeatherService.getWeather();
+  }
+  
+  public List<Weather> getWeathers() {
+    return mWeatherService.getWeathers();
   }
 }

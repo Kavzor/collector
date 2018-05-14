@@ -10,10 +10,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
+@RequestMapping(path = "mock-service")
 public class MockEndpoint {
   
   @Autowired
@@ -32,7 +36,9 @@ public class MockEndpoint {
     if(CollectorApplication.IS_DEVELOPMENT_MODE) {
       var weather = mWeatherProvider.getWeather();
       return ResponseEntity
-              .ok(weather);
+              .ok()
+              .header("mode", "development")
+              .body(weather);
     }
     else {
       return ResponseEntity
@@ -41,6 +47,24 @@ public class MockEndpoint {
               .build();
     }
   }
+  
+  @GetMapping("weathers")
+  public ResponseEntity<List<Weather>> mock_weathers() {
+    if(CollectorApplication.IS_DEVELOPMENT_MODE) {
+      var weathers = mWeatherProvider.getWeathers();
+      return ResponseEntity
+              .ok()
+              .header("mode", "development")
+              .body(weathers);
+    }
+    else {
+      return ResponseEntity
+              .noContent()
+              .header("mode", "production")
+              .build();
+    }
+  }
+  
   
   @GetMapping("traffic")
   public void mock_traffic() {
