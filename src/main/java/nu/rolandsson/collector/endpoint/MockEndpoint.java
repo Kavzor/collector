@@ -3,9 +3,12 @@ package nu.rolandsson.collector.endpoint;
 import nu.rolandsson.collector.CollectorApplication;
 import nu.rolandsson.collector.MockConfig;
 import nu.rolandsson.collector.mock.WeatherProvider;
+import nu.rolandsson.collector.model.Weather;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,13 +28,17 @@ public class MockEndpoint {
   }
   
   @GetMapping("weather")
-  public String mock_weather() {
+  public ResponseEntity<Weather> mock_weather() {
     if(CollectorApplication.IS_DEVELOPMENT_MODE) {
-      //var weatherProvider = mContext.getBean(WeatherProvider.class);
-      return mWeatherProvider.getWeather();
+      var weather = mWeatherProvider.getWeather();
+      return ResponseEntity
+              .ok(weather);
     }
     else {
-      return "Development mode is offline";
+      return ResponseEntity
+              .noContent()
+              .header("mode", "production")
+              .build();
     }
   }
   

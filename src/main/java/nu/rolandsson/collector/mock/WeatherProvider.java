@@ -1,6 +1,7 @@
 package nu.rolandsson.collector.mock;
 
 
+import nu.rolandsson.collector.model.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class WeatherProvider {
     mWeatherService = service;
   }
   
-  public String getWeather() {
+  public Weather getWeather() {
     return mWeatherService.getWeather();
   }
 }

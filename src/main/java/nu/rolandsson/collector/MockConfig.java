@@ -2,6 +2,7 @@ package nu.rolandsson.collector;
 
 
 import nu.rolandsson.collector.mock.WeatherService;
+import nu.rolandsson.collector.model.Weather;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,13 @@ public class MockConfig {
   WeatherService mockWeatherService() {
     return new WeatherService() {
       @Override
-      public String getWeather() {
-        return "Clear blue sky today, not tomrrow";
+      public Weather getWeather() {
+        return Weather.create(weather -> {
+          return weather
+                  .windspeed(10)
+                  .tempature(273)
+                  .description("Sunny");
+        });
       }
     };
   }
