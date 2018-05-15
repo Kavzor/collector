@@ -33,23 +33,23 @@ public class MockConfig {
   private List<Weather> getAllWeatherData() {
     return new LinkedList<>() {{
       add(Weather.create(weather -> weather
-              .windspeed(5)
-              .tempature(15)
+              .windspeed(4.7f)
+              .tempature(273 + 17.0f)
               .description("Snowy")
               .timestamp("Tue, 15 May 2018 07:02:01 +0200")));
       add(Weather.create(weather -> weather
-              .windspeed(15)
-              .tempature(10)
+              .windspeed(3.4f)
+              .tempature(273 + 10.9f)
               .description("Rain")
               .timestamp("Tue, 15 May 2018 22:05:23 +0200")));
       add(Weather.create(weather -> weather
               .windspeed(2.5f)
-              .tempature(15.8f)
+              .tempature(273 + 15.8f)
               .description("Cloudless")
               .timestamp("Wed, 16 May 2018 07:04:21 +0200")));
       add(Weather.create(weather -> weather
               .windspeed(12.3f)
-              .tempature(23.4f)
+              .tempature(273 + 23.4f)
               .description("Sunny")
               .timestamp("Wed, 16 May 2018 22:01:43 +0200")));
     }};
