@@ -6,18 +6,26 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SpringBootWebSecurityConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.WebSecurityEnablerConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
-public class CollectorApplication {
+public class CollectorApplication implements WebMvcConfigurer {
+	
+	private final static Logger logger = Logger.getLogger(CollectorApplication.class.getName());
 	
 	//@Value("${spring.datasource.url}")
 	private String dbUrl;
@@ -25,12 +33,17 @@ public class CollectorApplication {
 	public static final boolean IS_DEVELOPMENT_MODE = true;
 
 	public static void main(String[] args) {
+		logger.info("---Booting application---");
+		
 		SpringApplication.run(CollectorApplication.class, args);
-		//var context = new AnnotationConfigApplicationContext(MockConfig.class);
-		//var provider = context.getBean(WeatherProvider.class);
-		//System.out.println(provider.getWeather());
+		
+		logger.info("---Application booted---");
 	}
 	
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("mock-service").allowedOrigins("*");
+	}
 	
 	/*@Bean
 	public DataSource dataSource() throws URISyntaxException {
