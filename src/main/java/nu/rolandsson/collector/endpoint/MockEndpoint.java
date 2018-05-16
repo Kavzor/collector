@@ -24,24 +24,19 @@ public class MockEndpoint {
   private final static Logger logger =
           Logger.getLogger(MockEndpoint.class.getName());
   
-  @Autowired
-  private ApplicationContext mContext;
-  
-  @Autowired
+  /*@Autowired
   private WeatherRepository weatherRepository;
-  
+  */
   private WeatherProvider mWeatherProvider;
   
   @Autowired
   public void context(ApplicationContext context) {
-    mContext = context;
     mWeatherProvider = context.getBean(WeatherProvider.class);
   }
   
   @GetMapping("weathers/{index}")
   public ResponseEntity<Weather> mock_weather(@PathVariable("index")
                                               int index) {
-    System.out.println("Testing: " + weatherRepository.findAll());
     if(CollectorApplication.IS_DEVELOPMENT_MODE) {
       try {
         var weather = mWeatherProvider.getWeather(index);

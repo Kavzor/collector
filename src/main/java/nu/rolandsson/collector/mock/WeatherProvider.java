@@ -19,7 +19,6 @@ public class WeatherProvider {
   
   @Autowired
   public WeatherProvider(WeatherService service) {
-    System.out.println("Setting up weatherprovider");
     mWeatherService = service;
   }
   
