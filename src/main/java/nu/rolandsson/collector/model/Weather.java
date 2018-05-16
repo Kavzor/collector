@@ -1,13 +1,11 @@
 package nu.rolandsson.collector.model;
 
-import nu.rolandsson.collector.contract.BuildEvaluator;
 import nu.rolandsson.collector.contract.Builder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
 
 @Entity
 public class Weather {

@@ -1,7 +1,6 @@
 package nu.rolandsson.collector.model;
 
 import nu.rolandsson.collector.contract.BuildEvaluator;
-import nu.rolandsson.collector.contract.Builder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,17 +1,16 @@
 package nu.rolandsson.collector.endpoint;
 
 import nu.rolandsson.collector.CollectorApplication;
-import nu.rolandsson.collector.MockConfig;
-import nu.rolandsson.collector.WeatherRepository;
 import nu.rolandsson.collector.exception.WeatherException;
 import nu.rolandsson.collector.mock.WeatherProvider;
 import nu.rolandsson.collector.model.Weather;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.logging.Logger;

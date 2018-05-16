@@ -2,27 +2,17 @@ package nu.rolandsson.collector;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import nu.rolandsson.collector.mock.WeatherProvider;
-import org.hibernate.action.internal.CollectionAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SpringBootWebSecurityConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.WebSecurityEnablerConfiguration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.*;
-import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.logging.Logger;
 
 @SpringBootApplication
@@ -52,15 +42,22 @@ public class CollectorApplication implements WebMvcConfigurer {
 	
 	@Bean
 	public DataSource dataSource() throws URISyntaxException {
+		StringBuilder pathBuilder = new StringBuilder();
 		URI dbUri = new URI(mDbUrl);
-		String username = dbUri.getUserInfo().split(":")[0];
-		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath() + "?sslmode=require";
+		
+		String[] userInfoParts = dbUri.getUserInfo().split(":");
+		String dbPath = pathBuilder
+						.append("jdbc:postgresql://")
+						.append(dbUri.getHost())
+						.append(dbUri.getPath())
+						.append("?sslmode=require")
+						.toString();
 		
 		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setJdbcUrl(dbUrl);
-		hikariConfig.setUsername(username);
-		hikariConfig.setPassword(password);
+		hikariConfig.setJdbcUrl(dbPath);
+		hikariConfig.setUsername(userInfoParts[0]);
+		hikariConfig.setPassword(userInfoParts[1]);
+		hikariConfig.setMaximumPoolSize(5);
 		
 		return new HikariDataSource(hikariConfig);
 	}
