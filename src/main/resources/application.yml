@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    platform: POSTGRESQL
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+
+
+server:
+  port: ${PORT:5000}

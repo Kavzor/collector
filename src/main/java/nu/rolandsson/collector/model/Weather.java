@@ -3,9 +3,18 @@ package nu.rolandsson.collector.model;
 import nu.rolandsson.collector.contract.BuildEvaluator;
 import nu.rolandsson.collector.contract.Builder;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class Weather {
+  
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
   
   private float windspeed;
   private float tempature;
@@ -48,5 +57,13 @@ public class Weather {
   public static Weather create(Builder<WeatherBuilder> builder) {
     var weather = new WeatherBuilder();
     return builder.build(weather).evaluate();
+  }
+  
+  public Long getId() {
+    return id;
+  }
+  
+  public void setId(Long id) {
+    this.id = id;
   }
 }
