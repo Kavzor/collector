@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${DATABASE_URL}
+    url: ${DATABASE_URL:}
     platform: POSTGRESQL
   jpa:
     show-sql: true
@@ -9,5 +9,5 @@ spring:
 
 
 
-server:
-  port: ${PORT:5000}
+#server:
+  #port: ${PORT:5000}

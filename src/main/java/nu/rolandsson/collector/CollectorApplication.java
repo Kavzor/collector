@@ -59,7 +59,7 @@ public class CollectorApplication implements WebMvcConfigurer {
 	
 	
 	
-	/*
+	
 	@Bean
 	public DataSource dataSource() throws URISyntaxException {
 		//String db = System.getenv("DATABASE_URL");
@@ -68,7 +68,7 @@ public class CollectorApplication implements WebMvcConfigurer {
 		//URI dbUri = new URI(db);
 		String username = dbUri.getUserInfo().split(":")[0];
 		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath() + "?sslmode=require";
 		
 		logger.info("Connecting to " + dbUrl);
 		
@@ -78,10 +78,11 @@ public class CollectorApplication implements WebMvcConfigurer {
 		hikariConfig.setPassword(password);
 		
 		return new HikariDataSource(hikariConfig);
-	}*/
-	
-	/*@Bean
+	}
+	/*
+	@Bean
 	public DataSource dataSource() throws SQLException {
+		mDbUrl = "postgres://xquiqydqgjcopu:15749197bb123847de32bbdb345c223f912dd1b7aff3f192e23466ee6d11c77e@ec2-54-225-96-191.compute-1.amazonaws.com:5432/dds89j3afiv713?sslmode=require";
 		logger.info("Setting up datasource on " + mDbUrl);
 		if (mDbUrl == null || mDbUrl.isEmpty()) {
 			return new HikariDataSource();
@@ -90,5 +91,6 @@ public class CollectorApplication implements WebMvcConfigurer {
 			config.setJdbcUrl(mDbUrl);
 			return new HikariDataSource(config);
 		}
-	}*/
+	}
+	*/
 }

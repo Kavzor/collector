@@ -2,6 +2,7 @@ package nu.rolandsson.collector.endpoint;
 
 import nu.rolandsson.collector.CollectorApplication;
 import nu.rolandsson.collector.MockConfig;
+import nu.rolandsson.collector.WeatherRepository;
 import nu.rolandsson.collector.exception.WeatherException;
 import nu.rolandsson.collector.mock.WeatherProvider;
 import nu.rolandsson.collector.model.Weather;
@@ -26,6 +27,9 @@ public class MockEndpoint {
   @Autowired
   private ApplicationContext mContext;
   
+  @Autowired
+  private WeatherRepository weatherRepository;
+  
   private WeatherProvider mWeatherProvider;
   
   @Autowired
@@ -37,6 +41,7 @@ public class MockEndpoint {
   @GetMapping("weathers/{index}")
   public ResponseEntity<Weather> mock_weather(@PathVariable("index")
                                               int index) {
+    System.out.println("Testing: " + weatherRepository.findAll());
     if(CollectorApplication.IS_DEVELOPMENT_MODE) {
       try {
         var weather = mWeatherProvider.getWeather(index);
