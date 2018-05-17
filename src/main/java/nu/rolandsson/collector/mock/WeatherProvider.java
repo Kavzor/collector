@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Responsible for providing weather through the assigned weatherservice
+ */
 @Component
 public class WeatherProvider {
   
@@ -18,10 +21,16 @@ public class WeatherProvider {
   private final WeatherService mWeatherService;
   
   @Autowired
-  public WeatherProvider(WeatherService service) {
-    mWeatherService = service;
+  public WeatherProvider(WeatherService weatherService) {
+    mWeatherService = weatherService;
   }
   
+  /**
+   * Fetches weather with specific index value
+   * @param index the index value of weatherdata
+   * @return  the weather response
+   * @throws WeatherException if weather index does not match a weather
+   */
   public Weather getWeather(int index) throws WeatherException {
     try {
       return mWeatherService.get(index);
@@ -34,6 +43,10 @@ public class WeatherProvider {
     }
   }
   
+  /**
+   * Fetches all weather data
+   * @return the weather data
+   */
   public List<Weather> getWeathers() {
     return mWeatherService.getAll();
   }

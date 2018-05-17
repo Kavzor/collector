@@ -1,4 +1,4 @@
-package nu.rolandsson.collector;
+package nu.rolandsson.collector.model.repository;
 
 import nu.rolandsson.collector.model.Weather;
 import org.springframework.data.jpa.repository.JpaRepository;

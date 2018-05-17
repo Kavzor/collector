@@ -3,6 +3,8 @@ package nu.rolandsson.collector;
 
 import nu.rolandsson.collector.mock.WeatherService;
 import nu.rolandsson.collector.model.Weather;
+import nu.rolandsson.collector.model.repository.WeatherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,24 +14,53 @@ import java.util.List;
 
 @Configuration
 @ComponentScan
-public class MockConfig {
+public class CollectorConfiguration {
+
+  @Autowired
+  private WeatherRepository weatherRepository;
+
+  @Bean
+  WeatherService weatherService() {
+    return new WeatherService() {
+      @Override
+      public Weather get(int index) {
+        return null;
+      }
+  
+      @Override
+      public List<Weather> getAll() {
+        return weatherRepository.findAll();
+      }
+  
+      @Override
+      public void add(Weather weather) {
+        weatherRepository.save(weather);
+      }
+  
+      @Override
+      public void remove(Weather weather) {
+        weatherRepository.delete(weather);
+      }
+    };
+  }
+  
   
   @Bean
   WeatherService mockWeatherService() {
     return new WeatherService() {
       @Override
       public Weather get(int index) {
-        return getAllWeatherData().get(index);
+        return getAllMockWeatherData().get(index);
       }
-  
+      
       @Override
       public List<Weather> getAll() {
-        return getAllWeatherData();
+        return getAllMockWeatherData();
       }
     };
   }
   
-  private List<Weather> getAllWeatherData() {
+  private List<Weather> getAllMockWeatherData() {
     return new LinkedList<>() {{
       add(Weather.create(weather -> weather
               .windspeed(4.7f)
