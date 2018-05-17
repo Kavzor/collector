@@ -2,6 +2,8 @@ package nu.rolandsson.collector;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import nu.rolandsson.collector.provider.DatasourceProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,8 +25,17 @@ public class CollectorApplication implements WebMvcConfigurer {
 	private final static Logger logger = Logger.getLogger(CollectorApplication.class.getName());
 	public static final boolean IS_DEVELOPMENT_MODE = true;
 	
-	@Value(value = "${spring.datasource.url}")
+	/*@Value(value = "${spring.datasource.url}")
 	private String mDbUrl;
+	*/
+	
+	
+	private DatasourceProvider mDatasourceProvider;
+	
+	@Autowired
+	public void context(@Value("${spring.datasource.url}") String url) {
+		mDatasourceProvider = new DatasourceProvider(url);
+	}
 	
 	
 	public static void main(String[] args) {
@@ -41,24 +52,13 @@ public class CollectorApplication implements WebMvcConfigurer {
 	}
 	
 	@Bean
-	public DataSource dataSource() throws URISyntaxException {
-		StringBuilder pathBuilder = new StringBuilder();
-		URI dbUri = new URI(mDbUrl);
+	public DataSource dataSource() {
+		String[] userInfoParts = mDatasourceProvider.getUserParts();
 		
-		String[] userInfoParts = dbUri.getUserInfo().split(":");
-		String dbPath = pathBuilder
-						.append("jdbc:postgresql://")
-						.append(dbUri.getHost())
-						.append(dbUri.getPath())
-						.append("?sslmode=require")
-						.toString();
-		
-		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setJdbcUrl(dbPath);
-		hikariConfig.setUsername(userInfoParts[0]);
-		hikariConfig.setPassword(userInfoParts[1]);
-		hikariConfig.setMaximumPoolSize(5);
-		
-		return new HikariDataSource(hikariConfig);
+		return new HikariDataSource(mDatasourceProvider.getConfig()
+						.username(userInfoParts[DatasourceProvider.USER_PART_USERNAME])
+						.password(userInfoParts[DatasourceProvider.USER_PART_PASSWORD])
+						.sslmode(true)
+						.getHikariConfig());
 	}
 }
