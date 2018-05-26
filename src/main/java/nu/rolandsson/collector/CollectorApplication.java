@@ -55,12 +55,12 @@ public class CollectorApplication implements WebMvcConfigurer {
 	private static void repeatThread() {
     while(true) {
       try {
-        Thread.sleep(60*1000);
+        Thread.sleep(1000*60*60);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
       
-      logger.info("Repeating thread");
+      logger.info("Repeating thread after 15 min");
     }
   }
 	
