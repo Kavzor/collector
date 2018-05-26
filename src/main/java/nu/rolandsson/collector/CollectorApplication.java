@@ -45,26 +45,8 @@ public class CollectorApplication implements WebMvcConfigurer {
 		
 		SpringApplication.run(CollectorApplication.class, args);
 		
-		Thread thread = new Thread(() -> {
-		  repeatThread();
-		});
-		
-		thread.start();
-		
 		logger.info("---Application booted---");
 	}
-	
-	private static void repeatThread() {
-    while(true) {
-      try {
-        Thread.sleep(1000*60*60);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      
-      logger.info("Repeating thread after 15 min");
-    }
-  }
 	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
