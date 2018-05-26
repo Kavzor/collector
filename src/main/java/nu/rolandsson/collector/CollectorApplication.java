@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @Configuration
+@EnableScheduling
 public class CollectorApplication implements WebMvcConfigurer {
 	
 	private final static Logger logger = Logger.getLogger(CollectorApplication.class.getName());
@@ -69,6 +71,8 @@ public class CollectorApplication implements WebMvcConfigurer {
 		registry.addMapping("mock-service").allowedOrigins("*");
 	}
 	
+	
+  
 	@Bean
 	public DataSource dataSource() {
 		String[] userInfoParts = mDatasourceProvider.getUserParts();
